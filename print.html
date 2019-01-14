@@ -1,0 +1,1993 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>learn-gfx-hal</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li><a href="00_requirements.html"><strong aria-hidden="true">1.</strong> Requirements</a></li><li><a href="01_opening_a_window.html"><strong aria-hidden="true">2.</strong> Opening A Window</a></li><li><a href="02_clear_the_window.html"><strong aria-hidden="true">3.</strong> Clear The Window</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">learn-gfx-hal</h1> 
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="#requirements" id="requirements"><h1>Requirements</h1></a>
+<p>I assume that you have basic familiarity with Rust. So go read <a href="https://doc.rust-lang.org/book/">The Rust
+Book</a> if you haven't ever done that.</p>
+<p>We will also be touching upon elements of <code>unsafe</code> Rust, and so you should also
+read <a href="https://doc.rust-lang.org/nomicon/">The Rustonomicon</a> if you have not.
+Actually, that's a mild lie, most of <code>gfx-hal-0.1.0</code> doesn't define any of its
+safety limits anyway (not beyond &quot;whatever Vulkan say is okay&quot;), so it's all a
+shot in the dark no matter what you do. Even if you're using a backend that
+isn't Vulkan.</p>
+<p>I don't assume you have any prior graphics programming skills. I sure don't have
+much myself. I drew a quad once in OpenGL, but that's it. We'll be learning and
+reviewing all that stuff together.</p>
+<p>The code all assumes that you're using <strong>Rust 2018</strong>.</p>
+<p>I set rustfmt to have 2 space indents and a line limit of 130. I hope you're
+fine with that.</p>
+<a class="header" href="#opening-a-window" id="opening-a-window"><h1>Opening A Window</h1></a>
+<p>Before we can draw anything, we need a place to draw it. That means we need to
+open a window.</p>
+<a class="header" href="#initializing-a-window" id="initializing-a-window"><h2>Initializing A Window</h2></a>
+<p>To open a window in Rust, you want to use the <a href="https://docs.rs/winit/">winit</a>
+crate to get the best cross-platform coverage available. At the time of writing,
+the latest version is 0.18. Set up a project for this tutorial however you like
+and just add <code>winit</code> to your <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[dependencies]
+winit = &quot;0.18&quot;
+</code></pre>
+<p>The <code>winit</code> crate is what you'd call &quot;mostly stable&quot;. There are small breaking changes
+with new versions, but it's usually plain enough to see what the new types or methods
+that you need to move to are.</p>
+<p>The <a href="https://docs.rs/winit/0.18.0/winit/#building-a-window">crate documentation</a>
+goes over the basic steps of building a window:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let events_loop = EventsLoop::new();
+let window = WindowBuilder::new()
+  .with_title(&quot;Example&quot;)
+  .build(&amp;events_loop)
+  .expect(&quot;Could not create a window!&quot;);
+#}</code></pre></pre>
+<p>Of course, the
+<a href="https://docs.rs/winit/0.18.0/winit/struct.WindowBuilder.html">WindowBuilder</a>
+type has many other methods you might want to use, so be sure to check all
+that out.</p>
+<a class="header" href="#responding-to-events" id="responding-to-events"><h2>Responding To Events</h2></a>
+<p>Once the window is open the user will try to interact with the window. They'll
+move the mouse, type keys, click the <code>x</code> in the corner to close it, things like
+that. You handle all of this with
+<a href="https://docs.rs/winit/0.18.0/winit/struct.EventsLoop.html">EventsLoop</a>.
+You can call
+<a href="https://docs.rs/winit/0.18.0/winit/struct.EventsLoop.html#method.run_forever">run_forever</a>
+with a callback, or
+<a href="https://docs.rs/winit/0.18.0/winit/struct.EventsLoop.html#method.poll_events">poll_events</a>
+with a callback. In both cases, your callback gets an
+<a href="https://docs.rs/winit/0.18.0/winit/enum.Event.html">Event</a>, which is an enum.
+Naturally we have to match on that and find the cases we care about. We can discard the
+other types. You'll actually get a whole lot of events through <code>winit</code>,
+so it's definitely good to ignore most of them if you only care about one or two
+event types.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let mut running = true;
+while running {
+  events_loop.poll_events(|event| match event {
+    Event::WindowEvent {
+      event: WindowEvent::CloseRequested,
+      ..
+    } =&gt; running = false,
+    _ =&gt; (),
+  });
+}
+#}</code></pre></pre>
+<a class="header" href="#pack-it-together" id="pack-it-together"><h2>Pack It Together</h2></a>
+<p>We'll have a lot of things floating around as we go along, so we'll want to pack
+things together when we can. Winit doesn't care what graphical libs you're using
+to draw within the frame, so we can keep just the windowing stuff in its own
+struct, apart from any gfx-hal things.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[derive(Debug)]
+pub struct WinitState {
+  pub events_loop: EventsLoop,
+  pub window: Window,
+}
+#}</code></pre></pre>
+<p>Of course, we want to streamline those building steps:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+impl WinitState {
+  /// Constructs a new `EventsLoop` and `Window` pair.
+  ///
+  /// The specified title and size are used, other elements are default.
+  /// ## Failure
+  /// It's possible for the window creation to fail. This is unlikely.
+  pub fn new&lt;T: Into&lt;String&gt;&gt;(title: T, size: LogicalSize) -&gt; Result&lt;Self, CreationError&gt; {
+    let events_loop = EventsLoop::new();
+    let output = WindowBuilder::new().with_title(title).with_dimensions(size).build(&amp;events_loop);
+    output.map(|window| Self { events_loop, window })
+  }
+}
+#}</code></pre></pre>
+<p>And we probably want to go one step farther for our examples and just give a
+<code>Default</code> impl that calls <code>new</code> with some default values and then panics if
+there's a <code>CreationError</code>.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub const WINDOW_NAME: &amp;str = &quot;Hello Winit&quot;;
+
+impl Default for WinitState {
+  /// Makes an 800x600 window with the `WINDOW_NAME` value as the title.
+  /// ## Panics
+  /// If a `CreationError` occurs.
+  fn default() -&gt; Self {
+    Self::new(WINDOW_NAME, LogicalSize { width: 800.0, height: 600.0 }).expect(&quot;Could not create a window!&quot;)
+  }
+}
+#}</code></pre></pre>
+<a class="header" href="#running-the-program" id="running-the-program"><h2>Running The Program</h2></a>
+<p>So far we only have a very tiny main function to look at:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+  let mut winit_state = WinitState::default();
+  let mut running = true;
+  while running {
+    winit_state.events_loop.poll_events(|event| match event {
+      Event::WindowEvent {
+        event: WindowEvent::CloseRequested,
+        ..
+      } =&gt; running = false,
+      _ =&gt; (),
+    });
+  }
+}
+</code></pre></pre>
+<p>If you run this you get an all white window. Actually, without anything being
+drawn to the window, it might instead show all black, or even just garbage pixel
+data. It depends on your windowing system.</p>
+<p>Also, normally an application would use &quot;Vertical Synchronization&quot; (Vsync) to
+slow down the main loop. Without any drawing code we can't use vsync, so the
+loop will run as fast as possible and use 100% of the core it's on.</p>
+<p>Both things are not good, but this is just a stepping stone and we learn
+to draw stuff in the next lesson, so it's fine.</p>
+<p>All of the code discussed here is available within the
+<a href="https://github.com/gfx-rs/learn-gfx-hal/blob/master/examples/hello_winit.rs">hello_winit</a>
+example.</p>
+<a class="header" href="#clearing-the-window" id="clearing-the-window"><h1>Clearing The Window</h1></a>
+<p>Once you have a window open, the <em>usual</em> next step for a graphics tutorial is to
+draw &quot;your first triangle&quot;. You see, the fundamental primitive of 3d graphics is
+the triangle. Yes, there are some systems such as the <a href="https://en.wikipedia.org/wiki/Sega_Saturn">Sega
+Saturn</a> that use quads instead, but
+in all the modern systems you'll find it's going to be triangles. Even a quad is
+just two triangles, when you think about it. With enough math and enough
+parallel processing you can do anything you want with triangles.</p>
+<ul>
+<li>Skyrim? Triangles.</li>
+<li>Breath of The Wild? Has a few more triangles than Skyrim.</li>
+<li>Super Smash Bros? Just a whole lot of triangles.</li>
+</ul>
+<p>We'll be covering triangles <em>quite</em> a bit. However, in the context of <code>gfx-hal</code>,
+which is like 97% &quot;whatever Vulkan does&quot;, even if you're <em>not</em> using the Vulkan
+backend, there's a great <em>many</em> steps of setup involved between &quot;a window that
+draws nothing&quot; and &quot;a window that draws one triangle&quot;.</p>
+<p>In fact the <a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/">official gfx-hal docs</a>
+specifically give us a warning about this. The top level docs are so short I can
+include all three sentences right here for dramatic effect:</p>
+<blockquote>
+<p>Low-level graphics abstraction for Rust. Mostly operates on data, not types.
+Designed for use by libraries and higher-level abstractions only.</p>
+</blockquote>
+<p>There are basically no defaults provided. We have to list out every single
+little step of the entire configuration process. I mean they convert C types
+into Rust types for us, but it's still very &quot;do it yourself&quot;. That's <em>cool</em> if
+you actually care about defining it all (which you will some day, I'm sure, or
+you wouldn't be reading this right now), but it's also <em>long</em> when you're
+starting out and want to get something on the screen.</p>
+<p>Since going all the way to &quot;drawing a triangle&quot; might end up feeling like too
+much at once, we'll stop this lesson at an intermediate step. Remember how our
+<code>winit</code> window from last lesson didn't refresh itself properly? We can fix just
+that much and then stop there. That <em>alone</em> will cover a surprising amount of
+ground.</p>
+<a class="header" href="#outline-our-target-api" id="outline-our-target-api"><h2>Outline Our Target API</h2></a>
+<p>So, in the first lesson we had <code>WinitState</code> and it just had two public fields.
+There's not much there, it's all safe code, and it's not the focus of our
+lessons, so that's fine. I mean I guess you could pair up the wrong <code>EventLoop</code>
+with the wrong <code>Window</code> or something, but two public fields is good enough.</p>
+<p>With <code>gfx-hal</code> it is <em>wildly</em> the opposite situation. We're going to be juggling
+a dozen or more things at once, and most of them are <strong>very</strong> unsafe things that
+must be handled with extreme care. <code>gfx-hal</code>, at its core, is about directing a
+pile of DMA units and a hyper-SIMD co-processor with all safety checks left in
+&quot;up to you&quot; mode. That's <em>about</em> as unsafe as it gets. Not only do we want a
+<code>HalState</code> type, we want to expose <em>nothing</em> that's inside of it, because it's
+all a giant pile of sharp and dangerous things. We want to wrap all that up,
+then offer a very small, well curated, semantically meaningful set of operations
+that the outside world can access.</p>
+<p>Sure sounds like API Design. There's so much that could be said about API
+design. Let's keep it short:</p>
+<ul>
+<li>Always, <em>Always</em>, <strong><em>Always</em></strong> <a href="https://caseymuratori.com/blog_0025">write the usage code
+first.</a></li>
+</ul>
+<p>Even before we know <em>any details about how <code>gfx-hal</code> works</em>, we're going to just
+write out how we <em>think</em> we should be able to use it. How we think it's be
+easiest to use. Once it's built we will be calling the methods a lot more than
+we'll be implementing the methods, so unless we end up with some sort of
+performance disaster or impossible requirement we'll keep the exterior simple
+even if it means the interior might end up a little more complex.</p>
+<p>So what's our <em>usage</em> of the <code>HalState</code> type look like?</p>
+<p>There's lots of answers you could have to that question. Really, there are.
+Obviously since I'm writing this we're going to be using what I came up with,
+but if you think you can get a better solution you should try it out. I'll try
+to explain my thinking as best as I can, and hopefully you'll agree with me.</p>
+<a class="header" href="#initialization" id="initialization"><h3>Initialization</h3></a>
+<p>We already have <code>WinitState</code>, we're going to want <code>HalState</code> too. Clearly the
+<code>WinitState</code> can be made before the <code>HalState</code> (since we did it last lesson).</p>
+<p>We'll also want to have a <code>LocalState</code>, and that's the grab bag of everything
+else in the program. If you're doing a game or a simulation or something that's
+your <code>GameState</code> or <code>World</code> or whatever you wanna call the type.</p>
+<p>So far the code outline looks like this:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main(){
+  let mut winit_state = WinitState::default();
+  let mut hal_state = HalState::default();
+  let mut local_state = LocalState::default();
+  // MAIN LOOP
+  // CLEANUP
+}
+</code></pre></pre>
+<p>Except, when you think about it, the way that <code>gfx-hal</code> initializes itself
+~~probably~~ definitely depends on the <code>Window</code> it's going to draw within. It
+can't be totally default with no inputs. We need a <code>HalState</code> initialization
+method that takes a <code>Window</code> reference. The default name for any initialization
+method in Rust is just <code>new</code>, and I can't think of a better name to use, so
+we'll go with that.</p>
+<pre><pre class="playpen"><code class="language-rust">fn main(){
+  let mut winit_state = WinitState::default();
+  let mut hal_state = HalState::new(&amp;winit_state.window);
+  let mut local_state = LocalState::default();
+  // MAIN LOOP
+  // CLEANUP
+}
+</code></pre></pre>
+<p>Also, of course, our local variables might depend on all sorts of things in some
+sort of application specific way. That part is up to you.</p>
+<a class="header" href="#main-loop" id="main-loop"><h3>Main Loop</h3></a>
+<p>Once things are all initialized and ready we go into the &quot;main loop&quot; part of the
+program.</p>
+<p><strong>Digression:</strong> Video is really just a series of still pictures. You show one after
+the other, very quickly, and a human brain interprets the existence of movement
+where none &quot;really&quot; exists. Each picture is a &quot;frame&quot;, and how quickly you go
+from one frame to the next is the &quot;frames per second&quot; (fps). The minimum fps for
+apparent movement is actually quite modest, you only need <a href="https://en.wikipedia.org/wiki/Frame_rate#Human_vision">about
+12</a>. More is better of
+course, the movement appears smoother the more fps you have. People have been
+animating for a long time and there's all sorts of standards by now, but on a
+computer you're usually expected to be drawing at about 60fps for &quot;good&quot; quality
+animation and 30fps for &quot;I guess that's okay for something made in Unity&quot;
+quality animation.</p>
+<p><strong>Back to code:</strong> The implication here is that each pass through our main loop
+will be one frame of display. We gather up the input for that frame, adjust our
+local variables according to the input (eg: in a game you might move the player a tiny
+bit, or whatever change), and then render the new state of the world into a frame that
+gets shown to the user. Something like this:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main(){
+  let winit_state = WinitState::default();
+  let hal_state = HalState::new(&amp;winit_state.window);
+  let mut local_state = LocalState::default();
+  loop {
+    let inputs = UserInput::poll_events_loop(&amp;mut winit_state.event_loop);
+    if inputs.end_requested {
+      break;
+    }
+    local_state.update_from_input(inputs);
+    do_the_render(&amp;mut hal_state, &amp;local_state);
+  }
+  // CLEANUP
+}
+</code></pre></pre>
+<p>This should look fairly familiar after what we did in the first lesson.</p>
+<p>You may be wondering why the <code>do_the_render</code> function is taking a <code>&amp;mut HalState</code> as the first argument, instead of having it be a <code>&amp;mut self</code> method on
+the <code>HalState</code> type. Well, I'm not sure it's the perfect decision, but we're
+going to <em>try</em> and keep our <code>HalState</code> and <code>LocalState</code> as totally separate as
+we can.</p>
+<ul>
+<li>If <code>HalState</code> doesn't know anything about the <code>LocalState</code> then it's a lot
+more likely to focus on reusable drawing operations, and we'll be a lot more
+likely to have something we can reuse in future situations (including
+&quot;practical&quot; situations beyond just this tutorial series).</li>
+<li>Similarly, if <code>LocalState</code> doesn't know about <code>HalState</code> then it's easier for
+it to focus on the &quot;business logic&quot; without worrying about anything else. We
+could even run the <code>LocalState</code> <em>without graphics at all</em> (sometimes called a
+&quot;headless&quot; mode), which can be nice if you want to do CI tests, or hook it to
+a server people connect to, or any other unexpected use.</li>
+</ul>
+<p>It can often be <em>tempting</em> to make everything into a method on some type, but
+that's an urge we need to resist in this situation.</p>
+<a class="header" href="#what-does-do_the_render-actually-do" id="what-does-do_the_render-actually-do"><h3>What Does <code>do_the_render</code> Actually Do?</h3></a>
+<p>I cheated a bit there, because I wrote down a call to <code>do_the_render</code> without
+actually saying <em>what</em> it's doing on the inside. That's the part we care about
+the most! That's how we know what our <code>HalState</code> API needs to look like.</p>
+<p>For this lesson, all we do is clear the screen. That sounds simple enough. Later
+lessons will add more, but this is our starting point.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub fn do_the_render(hal: &amp;mut HalState, locals: &amp;LocalState) {
+  hal.draw_clear_frame(locals.color());
+}
+#}</code></pre></pre>
+<p>That looks okay at first, but there might be some sort of error that happens
+during rendering. Nothing inside <code>do_the_render</code> particularly knows about how to
+handle an error, so we'll just pass that back up the stack.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub fn do_the_render(hal: &amp;mut HalState, locals: &amp;LocalState) -&gt; Result&lt;(), &amp;str&gt; {
+  hal.draw_clear_frame(locals.color())
+}
+#}</code></pre></pre>
+<p>And then in <code>main</code> I guess we can just... log the error and quit? It's not ideal
+for the program to shut itself down unexpectedly, but we don't really have a
+backup strategy at the moment. In a more advanced situation the error might be
+from the user trying to switch graphics settings or something, so you could
+automatically switch back to the previous settings in that case. Depends on the
+program, and the error.</p>
+<p>Also, in a full program you'd want to use a proper error enum, but we don't know
+what all our possible errors are, so we'll just use string literals for now.</p>
+<p>Anyway, now things look more like this:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main(){
+  let winit_state = WinitState::default();
+  let hal_state = HalState::new(&amp;winit_state.window);
+  let mut local_state = LocalState::default();
+  loop {
+    let inputs = UserInput::poll_events_loop(&amp;mut winit_state.events_loop);
+    if inputs.end_requested {
+      break;
+    }
+    local_state.update_from_input(inputs);
+    if let Err(e) = do_the_render(&amp;mut hal_state, &amp;local_state) {
+      error!(&quot;Rendering Error: {:?}&quot;, e);
+      break;
+    }
+  }
+  // CLEANUP
+}
+</code></pre></pre>
+<a class="header" href="#cleanup" id="cleanup"><h3>Cleanup</h3></a>
+<p>Usually when working with &quot;foreign&quot; data, anything that comes from outside of
+Rust, you have to consider the possibility that you'll have to manually do some
+cleanup work. <code>gfx-hal</code> is no different. Not only do we need to clean things up
+to avoid leaks when we're done, we need to clean up in the exactly correct
+order. The backend code can segfault your process just by you not shutting it
+down properly.</p>
+<p>How do we expose this in our API?</p>
+<p>We <em>don't</em>.</p>
+<p>I'm not saying that we <em>ignore</em> the subject of cleanup, that would be foolish,
+but I am saying that we should keep all of it entirely within the <code>HalState</code>
+type. Things are smoothest for the user when they can just let a type drop away
+without a care, and we're going to try and allow for such an easy use
+experience. Mostly what this means is that we won't want to have any &quot;getter&quot;
+methods that let an outside user move out anything that needs to be manually
+destroyed later. If they want to check the value of a number or maybe even get a
+<code>&amp;mut</code> to some that's fine, but anything that needs to be explicitly cleaned up
+we can't let out of our control.</p>
+<p>Now we can see our final outline:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main(){
+  let winit_state = WinitState::default();
+  let hal_state = HalState::new(&amp;winit_state.window);
+  let mut local_state = LocalState::default();
+  loop {
+    let inputs = UserInput::poll_events_loop(&amp;mut winit_state.event_loop);
+    if inputs.end_requested {
+      break;
+    }
+    local_state.update_from_input(inputs);
+    if let Err(e) = do_the_render(&amp;mut hal_state, &amp;local_state) {
+      error!(&quot;Rendering Error: {:?}&quot;, e);
+      break;
+    }
+  }
+}
+</code></pre></pre>
+<p>Will we achieve this? Hard to say without trying.</p>
+<a class="header" href="#activate-logging-powers" id="activate-logging-powers"><h2>Activate Logging Powers</h2></a>
+<p>As you write for <code>gfx-hal</code>, you'll definitely write stuff that's wrong. That's
+just how it goes, no shame in it. There's so many rules and details that even
+the <code>gfx-rs</code> team members don't know all of it all the time. They look at the
+Vulkan spec to verify the rules just like anyone else has to. Thankfully, we can
+avoid having too many bugs quietly creep into things by logging what's going on
+inside the program and hopefully something will show up in the logs to explain
+the problem when there is a problem.</p>
+<a class="header" href="#the-log-crate" id="the-log-crate"><h3>The <code>log</code> Crate</h3></a>
+<p>If you've ever done logging before you know that usually there's a &quot;logging
+facade&quot; which defines a way to write log messages that libraries use, and then
+there's an actual logging implementation that a binary will activate at the
+start of a process to receive logging messages and deal with them. Rust is no
+different.</p>
+<p>You use the <a href="https://docs.rs/log">log</a> crate to write a logging message. You use
+<a href="https://docs.rs/log/0.4.6/log/#available-logging-implementations">a logging implementation of
+choice</a> to
+actually process those logging messages. The actual macros for logging are just
+like how <code>println!</code> works, but instead of being called <code>println!</code> there's one
+macro for each &quot;level&quot; of logging. From most important to least important it
+goes: <code>error!</code>, <code>warn!</code>, <code>info!</code>, <code>debug!</code> and <code>trace!</code>. Different logging
+implementations let you limit the levels that actually get logged, and the
+logging crate has features to restrict what logging messages even get compiled
+in (so you can compile out all logging in release mode or whatever). It's a
+whole huge thing you can really dig through if you want.</p>
+<p>I don't want to. I want to not have any fuss. So we'll use
+<a href="https://crates.io/crates/simple_logger">simple_logger</a> which is exactly as easy
+as it sounds. You write one line, once, and then logging messages just go to
+<code>stdout</code> or <code>stderr</code>.</p>
+<p>First we add things to our <code>Cargo.toml</code> file.</p>
+<pre><code class="language-toml">[dependencies]
+log = &quot;0.4.0&quot;
+simple_logger = &quot;1.0&quot;
+winit = &quot;0.18&quot;
+</code></pre>
+<p>And then we turn on the <code>simple_logger</code> in main before we do anything else:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+  simple_logger::init().unwrap();
+  // ...
+</code></pre></pre>
+<p>And now we'll see anything that someone wanted to log. If we want to do our own
+logging that's easy too:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[allow(unused_imports)]
+use log::{error, warn, info, debug, trace};
+#}</code></pre></pre>
+<a class="header" href="#lunarg-vulkan-sdk" id="lunarg-vulkan-sdk"><h3>LunarG Vulkan SDK</h3></a>
+<p>Next you'll also want some tools that <em>aren't</em> strictly Rust related (shocking,
+I know).</p>
+<p>The <a href="https://vulkan.lunarg.com/sdk/home">LunarG Vulkan SDK</a> is a free set of
+tools for all major operating systems. Once you install the SDK, if you're using
+the <code>gfx-backend-vulkan</code> crate as your <code>gfx-hal</code> backend it'll log any
+validation errors when <code>debug_assertions</code> are on. You don't need to do any
+special setup, it just conveniently happens for you.</p>
+<p>Unfortunately, when testing with other backends you're much more &quot;on your own&quot;,
+but some help is still better than zero help. You can set up Metal validation,
+and I'll update here just as soon as one of the gfx team members with a mac
+updates me on what to say.</p>
+<a class="header" href="#adding-in-gfx-hal-and-a-backend" id="adding-in-gfx-hal-and-a-backend"><h2>Adding In <code>gfx-hal</code> And A Backend</h2></a>
+<p>Adding <code>gfx-hal</code> to our <code>Cargo.toml</code> file comes in two parts. There's <code>gfx-hal</code>,
+and also we need an actual &quot;backend&quot; that provides a specific implementation of
+the types and operations that <code>gfx-hal</code> defines.</p>
+<a class="header" href="#configuring-cargo" id="configuring-cargo"><h3>Configuring Cargo</h3></a>
+<p>We want to keep the backend selection as easy to swap as possible. Normally this
+is done at compile time, since there's only about one good backend per OS
+anyway, and it keeps things simpler than trying to select a backend at startup.
+The standard idiom for how to do this looks something like:</p>
+<pre><code class="language-toml">[features]
+default = []
+metal = [&quot;gfx-backend-metal&quot;]
+dx12 = [&quot;gfx-backend-dx12&quot;]
+vulkan = [&quot;gfx-backend-vulkan&quot;]
+
+[dependencies]
+log = &quot;0.4.0&quot;
+simple_logger = &quot;1.0&quot;
+winit = &quot;0.18&quot;
+gfx-hal = &quot;0.1&quot;
+arrayvec = &quot;0.4&quot;
+
+[dependencies.gfx-backend-vulkan]
+version = &quot;0.1&quot;
+optional = true
+
+[target.'cfg(target_os = &quot;macos&quot;)'.dependencies.gfx-backend-metal]
+version = &quot;0.1&quot;
+optional = true
+
+[target.'cfg(windows)'.dependencies.gfx-backend-dx12]
+version = &quot;0.1&quot;
+optional = true
+</code></pre>
+<p>If you want the Rust Language Server (RLS) to play nice with the various
+optional features you must tell it which one to use for its compilations. You
+could specify a default feature, but that's not quite elegant. If you're using
+VS Code with the RLS plugin you can instead make a <code>.vscode/settings.json</code> file
+in your project folder, and then in there place a setting for the feature you
+want it to use for RLS runs. Something like this:</p>
+<pre><code class="language-json">{
+  &quot;rust.features&quot;: [
+    &quot;dx12&quot;
+  ]
+}
+</code></pre>
+<p>If you're using RLS with some editor besides VS Code I'm afraid I don't know the
+details of how you tell RLS to use a particular feature, but you probably can.
+Consult your plugin docs, and such.</p>
+<a class="header" href="#configuring-the-code" id="configuring-the-code"><h3>Configuring The Code</h3></a>
+<p>Over inside our main file we won't actually be importing too much from the
+backends, but we'll place some conditional <code>use</code> statements so that they're
+always aliased to the same name, regardless of what one we're using.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[cfg(feature = &quot;dx12&quot;)]
+use gfx_backend_dx12 as back;
+#[cfg(feature = &quot;metal&quot;)]
+use gfx_backend_metal as back;
+#[cfg(feature = &quot;vulkan&quot;)]
+use gfx_backend_vulkan as back;
+#}</code></pre></pre>
+<a class="header" href="#any-other-backend-options" id="any-other-backend-options"><h3>Any Other Backend Options?</h3></a>
+<p>There <em>are</em> other backend options that we haven't considered:</p>
+<ul>
+<li><a href="https://crates.io/crates/gfx-backend-empty">gfx-backend-empty</a> does nothing
+but provide the required implementations as empty structs and do-nothing
+methods and similar. It's mostly used in the rustdoc examples for <code>gfx-hal</code>,
+so that they can check that doctests compile properly. You might also use this
+with RLS I guess, but since you'll also need a real backend compiled to run
+any code, you might as well make RLS use your real backend.</li>
+<li><a href="https://crates.io/crates/gfx-backend-gl">gfx-backend-gl</a> lets you target
+OpenGL 2.1+ and OpenGL ES2+. You'd probably use this if you wanted to run
+inside a webpage, or perhaps on a Raspberry Pi (which has OpenGL ES2 drivers,
+but not Vulkan), or anything else where you can't pick one of the &quot;main&quot;
+options. Unfortunately, the GL backend is actually a little busted at the
+moment. The biggest snag is that webpages and desktop apps have rather
+different control flow, so it's hard to come up with a unified API. Work is
+being done, and hopefully soon I'll be able to recommend the GL backend.</li>
+</ul>
+<a class="header" href="#also-arrayvec" id="also-arrayvec"><h3>Also <code>arrayvec</code></h3></a>
+<p>As you might have noticed, we're going to be using
+<a href="https://docs.rs/arrayvec">arrayvec</a> later on for the <code>ArrayVec</code> type. I don't
+want to come back to <code>Cargo.toml</code> later, so we can just mention it now.</p>
+<p><code>ArrayVec</code> works basically just like <code>Vec</code> but it's backed by an array on the
+stack, not a data blob on the heap, so it can't resize, but it also doesn't need
+a heap allocation to construct. We'll be using it during our draw code so that
+we can call a few critical functions without doing a heap allocation each frame.
+The functions in question have some weird generic bounds that work out for <code>Vec</code>
+and <code>ArrayVec</code> and similar, but not for arrays themselves. Generics just be like
+that sometimes.</p>
+<a class="header" href="#implementing-draw_clear_frame" id="implementing-draw_clear_frame"><h1>Implementing <code>draw_clear_frame</code></h1></a>
+<p>You might think that we'd start by learning how to initialize things, but
+actually our core goal is clearing the screen. Anything else that we do,
+including the initialization, is <em>only in service to that goal</em>. So first we'll
+focus on our core goal, then we'll see what we need for that, and then we'll see
+what we need for <em>that</em>, until eventually we stop needing to have already done
+something else.</p>
+<p>We'll be filling in this method:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+impl HalState {
+  pub fn draw_clear_frame(&amp;mut self, color: [f32; 4]) -&gt; Result&lt;(), &amp;'static str&gt; {
+    unimplemented!()
+  }
+}
+#}</code></pre></pre>
+<a class="header" href="#commandqueue" id="commandqueue"><h2>CommandQueue</h2></a>
+<p>The heart of it all is that we want to be able to safely call
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/queue/struct.CommandQueue.html#method.submit">CommandQueue::submit</a>,
+which submits a list of work which we define in a <code>CommandBuffer</code> to the GPU (in
+this case just clearing the image), and then we call
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/window/trait.Swapchain.html#method.present">Swapchain::present</a>,
+which instructs the GPU to wait until the CommandQueue work is done and
+&quot;present&quot; the completed image into the Swapchain.</p>
+<p><em>Exactly</em> what happens at that point depends on how you've configured the
+Swapchain, which we'll talk about in the initialization section. The important
+part to remember here is that <code>Swapchain::present</code> is effectively a
+<strong>non-blocking</strong> call. If you're used to using OpenGL you might expect <code>present</code>
+to be the point where your loop halts until Vsync, but with <code>gfx-hal</code> anything
+that makes the CPU wait on the GPU is controlled via &quot;Fences&quot; (which we'll see
+in a moment), and that doesn't include <code>present</code>.</p>
+<a class="header" href="#submit" id="submit"><h3><code>submit</code></h3></a>
+<p>The actual type of the <code>submit</code> method is <em>super generic</em> which means that it
+reads like a pile of space runes:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub unsafe fn submit&lt;'a, T, Ic, S, Iw, Is&gt;(
+    &amp;mut self, 
+    submission: Submission&lt;Ic, Iw, Is&gt;, 
+    fence: Option&lt;&amp;B::Fence&gt;
+)
+where
+    T: 'a + Submittable&lt;B, C, Primary&gt;,
+    Ic: IntoIterator&lt;Item = &amp;'a T&gt;,
+    S: 'a + Borrow&lt;B::Semaphore&gt;,
+    Iw: IntoIterator&lt;Item = (&amp;'a S, PipelineStage)&gt;,
+    Is: IntoIterator&lt;Item = &amp;'a S&gt;,
+#}</code></pre></pre>
+<p>Gross, right? Let's cut out those generics and look again:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub unsafe fn submit(&amp;mut self, submission: Submission, fence: Option&lt;&amp;B::Fence&gt;)
+#}</code></pre></pre>
+<p>Okay that's <em>way</em> easier to look at and understand. It's just a rustified
+version of
+<a href="https://www.khronos.org/registry/vulkan/specs/1.1-extensions/man/html/vkQueueSubmit.html">vkQueueSubmit</a>.
+Which doesn't mean anything to you right now because we're just starting, but
+like I said at the top: if the <code>gfx-hal</code> docs aren't clear on their semantics,
+you can usually assume that Vulkan semantics apply.</p>
+<ul>
+<li>We <code>submit</code> a <code>Submission</code> into the <code>CommandQueue</code>. Instead of giving a count
+and a pointer to an array of &quot;VkSubmitInfo&quot;, we give a single <code>Submission</code>,
+which is itself composed of <code>IntoIterator</code> things that I assume get iterated
+over. <em>Unfortunately</em>, since each backend has to handle the info in slightly
+different ways, we have to pay for that cross-platform benefit by things
+sometimes being a little less clear on our end.</li>
+<li>We optionally give a &quot;fence&quot; which gets &quot;signalled&quot; once all of the submitted
+command buffers have completed execution. We'll talk about that in a moment.</li>
+</ul>
+<a class="header" href="#present" id="present"><h3><code>present</code></h3></a>
+<p>The <code>present</code> method looks like this</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+unsafe fn present&lt;'a, C, S, Iw&gt;(
+    &amp;'a self, 
+    present_queue: &amp;mut CommandQueue&lt;B, C&gt;, 
+    image_index: SwapImageIndex, 
+    wait_semaphores: Iw
+) -&gt; Result&lt;(), ()&gt;
+where
+    Self: 'a + Sized + Borrow&lt;B::Swapchain&gt;,
+    C: Capability,
+    S: 'a + Borrow&lt;B::Semaphore&gt;,
+    Iw: IntoIterator&lt;Item = &amp;'a S&gt;, 
+#}</code></pre></pre>
+<p>And if we cut out the extra stuff:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+unsafe fn present(
+    &amp;self, 
+    present_queue: &amp;mut CommandQueue&lt;B, C&gt;,
+    image_index: SwapImageIndex,
+    wait_semaphores: Iw) -&gt; Result&lt;(), ()&gt;
+#}</code></pre></pre>
+<p>So <code>present</code> takes a <code>&amp;mut</code> to our <code>CommandQueue</code>, a target index within the
+Swapchain to present to, and a semaphore to wait on before actually presenting
+the image. This works like
+<a href="https://www.khronos.org/registry/vulkan/specs/1.1-extensions/man/html/vkQueuePresentKHR.html">vkQueuePresentKHR</a>.
+When we call <code>submit</code>, one of the Submission elements is going to be a semaphore
+to signal when the rendering is done. When we call <code>present</code> we give it that
+same semaphore to wait on before presenting the image, so that the user only
+sees complete images.</p>
+<a class="header" href="#fences" id="fences"><h3>Fences?</h3></a>
+<p>A <a href="https://en.wikipedia.org/wiki/Memory_barrier">fence</a> (aka
+<a href="https://www.khronos.org/registry/vulkan/specs/1.1-extensions/man/html/VkFence.html">VkFence</a>)
+is one of the two synchronization primitives we'll be dealing with. It's
+basically just a bool, it can &quot;signaled&quot; or &quot;unsignaled&quot;. You can share a fence
+between threads and everyone always sees the current state, so it's <em>like</em>
+having an
+<a href="https://doc.rust-lang.org/core/sync/atomic/struct.AtomicBool.html">AtomicBool</a>.</p>
+<p>Fences are for CPU to GPU synchronization. The CPU can wait on a fence, and the
+GPU will signal the fence when it's done whatever it's supposed to have done.</p>
+<a class="header" href="#semaphores" id="semaphores"><h3>Semaphores?</h3></a>
+<p>A <a href="https://en.wikipedia.org/wiki/Semaphore_(programming)">semaphore</a> (aka
+<a href="https://www.khronos.org/registry/vulkan/specs/1.1-extensions/man/html/VkSemaphore.html">VkSemaphore</a>)
+is the other synchronization primitive that we deal with. In some contexts (eg:
+<code>winapi</code>) a semaphore can be any integer value, but in a Vulkan / <code>gfx-hal</code>
+context they can only be &quot;signaled&quot; or &quot;unsignaled&quot;.</p>
+<p>The big difference between a fence and a semaphore is that semaphores are for
+GPU to GPU synchronization. When once part of a graphics pipeline (such as
+presentation to the swapchain) depends on another part of the pipeline (such as
+command buffer processing), then you describe that dependency to the GPU using a
+semaphore.</p>
+<a class="header" href="#submission" id="submission"><h2>Submission</h2></a>
+<p>Supposing that we already have a <code>CommandQueue</code> from somewhere, we need to give
+it a <code>Submission</code> of what to do.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub struct Submission&lt;Ic, Iw, Is&gt; {
+    pub command_buffers: Ic,
+    pub wait_semaphores: Iw,
+    pub signal_semaphores: Is,
+}
+#}</code></pre></pre>
+<p>Hmm, but the <code>submit</code> method had extra bounds in there:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+  T: 'a + Submittable&lt;B, C, Primary&gt;,
+  Ic: IntoIterator&lt;Item = &amp;'a T&gt;,
+  S: 'a + Borrow&lt;B::Semaphore&gt;,
+  Iw: IntoIterator&lt;Item = (&amp;'a S, PipelineStage)&gt;,
+  Is: IntoIterator&lt;Item = &amp;'a S&gt;,
+#}</code></pre></pre>
+<p>So if we put that together, and allow ourselves to use some slightly fake Rust
+syntax for just a moment, we need to build this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub struct Submission {
+    pub command_buffers: IntoIterator&lt;Item = &amp;'a Submittable&lt;B, C, Primary&gt;&gt;,
+    pub wait_semaphores: IntoIterator&lt;Item = (&amp;'a Borrow&lt;B::Semaphore&gt;, PipelineStage)&gt;,
+    pub signal_semaphores: IntoIterator&lt;Item = &amp;'a Borrow&lt;B::Semaphore&gt;&gt;,
+}
+#}</code></pre></pre>
+<ul>
+<li><code>command_buffers</code> is our
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/command/trait.Submittable.html">Submittable</a>
+things, which are <code>Borrow&lt;B::CommandBuffer&gt;</code>, so we can think of that as being
+<em>sorta</em> like <code>&amp;[CommandBuffer]</code>.</li>
+<li><code>wait_semaphores</code> gives the semaphores that this submission has to <em>wait on
+before it starts</em>. Each semaphore is paired with a
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/pso/struct.PipelineStage.html">PipelineStage</a>,
+allowing your submission to wait for a stage, do some work at that stage, wait
+for another stage, do some more work at the new stage, and so on.</li>
+<li><code>signal_semaphores</code> gives a list of semaphores that this submission <em>will
+signal once it completes</em>. It doesn't say, but I'm guessing that all the
+semaphores just get signaled at once at the end of the Submission.</li>
+</ul>
+<p>All of this is basically what you find in the
+<a href="https://www.khronos.org/registry/vulkan/specs/1.1-extensions/man/html/VkSubmitInfo.html">VkSubmitInfo</a>
+struct.</p>
+<a class="header" href="#arrayvec-submissions" id="arrayvec-submissions"><h3>ArrayVec Submissions</h3></a>
+<p>Remember when I said that we'd use the ArrayVec to avoid allocations per frame?
+That's this part. It's simple really. Instead of writing something like:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let command_buffers = vec![the_command_buffer];
+#}</code></pre></pre>
+<p>You write something like</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let command_buffers: ArrayVec&lt;[_; 1]&gt; = [the_command_buffer].into();
+#}</code></pre></pre>
+<a class="header" href="#submitting-and-presenting" id="submitting-and-presenting"><h2>Submitting And Presenting</h2></a>
+<p>So far it sounds like we want something like this</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+  pub fn draw_clear_frame(&amp;mut self, color: [f32; 4]) -&gt; Result&lt;(), &amp;str&gt; {
+    // SETUP FOR THIS FRAME
+    // ...
+
+    // RECORD SOME COMMANDS
+    // ...
+
+    // SUBMISSION
+    let command_buffers: ArrayVec&lt;[_; 1]&gt; = [the_command_buffer].into();
+    let wait_semaphores: ArrayVec&lt;[_; 1]&gt; = [(image_available, PipelineStage::COLOR_ATTACHMENT_OUTPUT)].into();
+    let signal_semaphores: ArrayVec&lt;[_; 1]&gt; = [render_finished].into();
+    let present_wait_semaphores: ArrayVec&lt;[_; 1]&gt; = [render_finished].into();
+    let submission = Submission {
+      command_buffers,
+      wait_semaphores,
+      signal_semaphores,
+    };
+    unsafe {
+      the_command_queue.submit(submission, Some(flight_fence));
+      the_swapchain.present(&amp;mut the_command_queue, i_u32, present_wait_semaphores)
+        .map_err(|_|&quot;Failed to present into the swapchain!&quot;)
+    }
+  }
+#}</code></pre></pre>
+<p>For all my fuss about things being so &quot;manual and on your own&quot;, that seems
+fairly reasonable so far.</p>
+<a class="header" href="#recording-commands" id="recording-commands"><h2>Recording Commands</h2></a>
+<p>So we need to fill up a
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/command/struct.CommandBuffer.html">CommandBuffer</a>
+with the operations that we want to have happen during the draw process.</p>
+<p>All we want to do is clear the screen, that's got to be easy enough.</p>
+<p>Well, it turns out that a CommandBuffer isn't totally free to make, so we want
+to make them ahead of time and then pick out and use a particular command buffer
+each frame. That's easy, we can change our Submission declaration very easily.
+Also, before it's part of the Submission, we want to grab a <code>&amp;mut</code> to the
+particular command buffer and write to it. That calls for the ever-lovable
+&quot;inner scope&quot; so that the <code>&amp;mut</code> goes away and we can take a <code>&amp;</code> to our buffer
+instead. Thankfully (I guess), recording to a CommandBuffer is all unsafe, so
+we can kill two birds with one stone.</p>
+<p>A CommandBuffer is actually wrapping around a
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/command/trait.RawCommandBuffer.html">RawCommandBuffer</a>
+with some metadata for bonus type safety. All the real documentation is given on
+the RawCommandBuffer type. Unfortunately, the methods aren't <em>exactly</em> the same
+name. Hopefully that's fixed in 0.2.</p>
+<p>We start by calling <code>begin</code></p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub unsafe fn begin(&amp;mut self, allow_pending_resubmit: bool)
+#}</code></pre></pre>
+<p>To begin the buffer overall. Then we start a particular render pass with</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub unsafe fn begin_render_pass_inline&lt;T&gt;(
+    &amp;mut self, 
+    render_pass: &amp;B::RenderPass, 
+    frame_buffer: &amp;B::Framebuffer, 
+    render_area: Rect, 
+    clear_values: T
+) -&gt; RenderPassInlineEncoder&lt;B&gt;
+where
+    T: IntoIterator,
+    T::Item: Borrow&lt;ClearValue&gt;, 
+#}</code></pre></pre>
+<p>Which records a render pass with no secondary command buffers.</p>
+<p>Next we... immediately finish the render pass. The RenderPass struct will define
+how to deal with the color buffer, including the clear effect, and the
+ClearValue just picks what color to clear to. We're already done.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+  pub fn draw_clear_frame(&amp;mut self, color: [f32; 4]) -&gt; Result&lt;(), &amp;str&gt; {
+    // SETUP FOR THIS FRAME
+    // ...
+
+    // RECORD SOME COMMANDS
+    {
+      let buffer = &amp;mut self.command_buffers[i_usize];
+      let clear_values = [ClearValue::Color(ClearColor::Float(color))];
+      buffer.begin(false);
+      buffer.begin_render_pass_inline(
+        &amp;self.render_pass,
+        &amp;self.swapchain_framebuffers[i_usize],
+        self.render_area,
+        clear_values.iter(),
+      );
+      buffer.finish();
+    }
+
+    // SUBMISSION
+    // ...
+  }
+#}</code></pre></pre>
+<a class="header" href="#frame-setup" id="frame-setup"><h2>Frame Setup</h2></a>
+<p>What's left to do as setup? Well, the GPU can be doing more than one of these
+buffer things at once. When you've got several images all going on it's called
+having frames &quot;in flight&quot;. At the start of each frame of work, we have to pick
+the right fences and semaphores and all that for the current frame that we're
+going to be working with. The simplest way is to just keep them in parallel
+vectors and go through them like a ring buffer.</p>
+<p>However, even once we've picked our current sync primitives, we have to
+<a href="https://www.khronos.org/registry/vulkan/specs/1.1-extensions/man/html/vkAcquireNextImageKHR.html">acquire</a>
+a particular image to work with out of the swapchain. We don't move the whole
+image out of the swapchain, we just get an index to target later with the
+<code>present</code> method.</p>
+<a class="header" href="#final-draw_clear_frame-code" id="final-draw_clear_frame-code"><h2>Final <code>draw_clear_frame</code> Code</h2></a>
+<p>So now we put it all together, with the signaling in big caps to help make it
+clear.</p>
+<ul>
+<li>Get our sync primitives out of our ring buffers</li>
+<li>WAIT on the current <code>flight_fence</code> to know we're in the clear to use this
+position of our ring buffer.</li>
+<li>Reset that fence so we can pass it as part of our submission later.</li>
+<li>Grab an image index that will SIGNAL the <code>image_available</code> semaphore once it's
+fully ready.</li>
+<li>Record our command buffer while we're waiting for that.</li>
+<li>Submit a command buffer to WAIT on <code>image_available</code> and SIGNAL both
+<code>render_finished</code> and <code>flight_fence</code>.</li>
+<li>Present the results into the swapchain after a WAIT on <code>render_finished</code></li>
+</ul>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+  /// Draw a frame that's just cleared to the color specified.
+  pub fn draw_clear_frame(&amp;mut self, color: [f32; 4]) -&gt; Result&lt;(), &amp;str&gt; {
+    // SETUP FOR THIS FRAME
+    let flight_fence = &amp;self.in_flight_fences[self.current_frame];
+    let image_available = &amp;self.image_available_semaphores[self.current_frame];
+    let render_finished = &amp;self.render_finished_semaphores[self.current_frame];
+    // Advance the frame _before_ we start using the `?` operator
+    self.current_frame = (self.current_frame + 1) % self.frames_in_flight;
+
+    let (i_u32, i_usize) = unsafe {
+      self
+        .device
+        .wait_for_fence(flight_fence, core::u64::MAX)
+        .map_err(|_| &quot;Failed to wait on the fence!&quot;)?;
+      self
+        .device
+        .reset_fence(flight_fence)
+        .map_err(|_| &quot;Couldn't reset the fence!&quot;)?;
+      let image_index = self
+        .swapchain
+        .acquire_image(core::u64::MAX, FrameSync::Semaphore(image_available))
+        .map_err(|_| &quot;Couldn't acquire an image from the swapchain!&quot;)?;
+      (image_index, image_index as usize)
+    };
+
+    // RECORD COMMANDS
+    unsafe {
+      let buffer = &amp;mut self.command_buffers[i_usize];
+      let clear_values = [ClearValue::Color(ClearColor::Float(color))];
+      buffer.begin(false);
+      buffer.begin_render_pass_inline(
+        &amp;self.render_pass,
+        &amp;self.framebuffers[i_usize],
+        self.render_area,
+        clear_values.iter(),
+      );
+      buffer.finish();
+    }
+
+    // SUBMISSION AND PRESENT
+    let command_buffers = &amp;self.command_buffers[i_usize..=i_usize];
+    let wait_semaphores: ArrayVec&lt;[_; 1]&gt; = [(image_available, PipelineStage::COLOR_ATTACHMENT_OUTPUT)].into();
+    let signal_semaphores: ArrayVec&lt;[_; 1]&gt; = [render_finished].into();
+    // yes, you have to write it twice like this. yes, it's silly.
+    let present_wait_semaphores: ArrayVec&lt;[_; 1]&gt; = [render_finished].into();
+    let submission = Submission {
+      command_buffers,
+      wait_semaphores,
+      signal_semaphores,
+    };
+    let the_command_queue = &amp;mut self.queue_group.queues[0];
+    unsafe {
+      the_command_queue.submit(submission, Some(flight_fence));
+      self
+        .swapchain
+        .present(the_command_queue, i_u32, present_wait_semaphores)
+        .map_err(|_| &quot;Failed to present into the swapchain!&quot;)
+    }
+  }
+#}</code></pre></pre>
+<a class="header" href="#initializing-halstate" id="initializing-halstate"><h1>Initializing <code>HalState</code></h1></a>
+<p>So for our <code>draw_clear_frame</code> method to work it expects that we have many things
+on hand as part of <code>HalState</code>. Listing them in the order that they're used:</p>
+<ul>
+<li>fences (requires a Device + frames_in_flight)</li>
+<li>semaphores (requires a Device + frames_in_flight)</li>
+<li>current_frame (just starts at 0)</li>
+<li>frames_in_flight (comes from the Swapchain)</li>
+<li>device (requires an Adapter)</li>
+<li>swapchain (requires a Surface+Adapter+Device)</li>
+<li>command_buffers (requires a CommandPool)</li>
+<li>render_pass (requires a Device)</li>
+<li>swapchain_framebuffers (requires ImageView values)</li>
+<li>render_area (comes from the Swapchain)</li>
+<li>queue_group (requires an Adapter)</li>
+</ul>
+<p>But, as you can probably guess, that's <em>not</em> the order that they're initialized.
+You should have noticed that there's some things on there we haven't even
+discussed yet, which also have their requirements. In no particular order:</p>
+<ul>
+<li>image_views (requires a Device+Backbuffer)</li>
+<li>backbuffer (requires Surface+Adapter)</li>
+<li>Command Pool (requires Device)</li>
+<li>Surface (requires an Instance+Window)</li>
+<li>Adapter (requires an Instance)</li>
+<li>Instance</li>
+</ul>
+<p>Now we just re-order it all so that nothing is built before the parts it depends
+on. We'll even add some names to the build phases to help group it mentally:</p>
+<ul>
+<li>Top Level Stuff
+<ul>
+<li>Instance</li>
+<li>Surface (requires an Instance+Window)</li>
+<li>Adapter (requires an Instance)</li>
+<li>queue_group (requires an Adapter)</li>
+<li>device (requires an Adapter)</li>
+</ul>
+</li>
+<li>The GPU Swapchain
+<ul>
+<li>swapchain (requires a Surface+Adapter+Device)</li>
+<li>backbuffer (requires Surface+Adapter)</li>
+<li>render_area (comes from the Swapchain)</li>
+<li>frames_in_flight (comes from the Swapchain)</li>
+<li>fences (requires a Device + frames_in_flight)</li>
+<li>semaphores (requires a Device + frames_in_flight)</li>
+</ul>
+</li>
+<li>RenderPass
+<ul>
+<li>render_pass (requires a Device + Swapchain format)</li>
+</ul>
+</li>
+<li>Targets For Rendering
+<ul>
+<li>image_views (requires a Device+Backbuffer)</li>
+<li>framebuffers (requires ImageView values)</li>
+</ul>
+</li>
+<li>Command Issuing
+<ul>
+<li>Command Pool (requires Device)</li>
+<li>command_buffers (requires a CommandPool + Swapchain)</li>
+</ul>
+</li>
+<li>Misc
+<ul>
+<li>current_frame (just starts at 0)</li>
+</ul>
+</li>
+</ul>
+<p>Notice that after the initial top level stuff you can do the other general
+phases in about any order you want. You use the parts that they each build all
+at once during rendering, but they can be constructed and configured
+independently.</p>
+<p>Also, there's many other things that a person might initialize in <code>gfx-hal</code>.
+That's why we looked at how to submit the command we wanted first, so we don't
+go wandering off initializing all sorts of things we don't end up needing.</p>
+<p>And I guess we can just copy this outline as our outline for the explanation of
+each step too. Nice when things work out like that.</p>
+<a class="header" href="#top-level-stuff" id="top-level-stuff"><h2>Top Level Stuff</h2></a>
+<p>Alright, so we're going to initialize a <code>HalState</code>. Well, just as with drawing,
+there might be any number of problems that come up during this many step
+process.</p>
+<p>So the method we're filling in looks like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+impl HalState {
+  pub fn new(window: &amp;Window) -&gt; Result&lt;Self, &amp;'static str&gt; {
+    unimplemented!()
+  }
+}
+#}</code></pre></pre>
+<a class="header" href="#instance" id="instance"><h3>Instance</h3></a>
+<p>An <code>Instance</code> is a backend specific black box. It's the handle that you hold to
+prove that you've activated the backend API, and when it drops the backend tries
+to close down, so you have to hold on to it at the very end and let it go last.</p>
+<p>For something so important, you'd imagine that there's a dedicated trait for
+them, and <a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/trait.Instance.html">you'd be
+right</a>. You'd also
+expect that the trait includes a way to create them instead of leaving it up to
+convention, and you'd be wrong.</p>
+<p>Still, it's very easy. We give an instance name and a version and the details of
+how that's used depend on the backend.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let instance = back::Instance::create(WINDOW_NAME, 1);
+#}</code></pre></pre>
+<a class="header" href="#surface" id="surface"><h3>Surface</h3></a>
+<p>The <a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/window/trait.Surface.html">Surface</a>
+is an abstraction of how the <code>Window</code> (from <code>winit</code>) and your <code>Instance</code> (from
+your <code>gfx-backend-whatever</code>) will actually be able to interact and show
+something on the screen.</p>
+<p>Similar to the Instance, it's very important, but also totally boring to create:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let mut surface = instance.create_surface(window);
+#}</code></pre></pre>
+<p>As far as I can tell, it has no special cleanup operation. It probably shouldn't
+outlive the Instance or the Window, but that's just a best guess.</p>
+<a class="header" href="#adapter" id="adapter"><h3>Adapter</h3></a>
+<p>The <a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/adapter/struct.Adapter.html">Adapter</a>
+is... <em>something</em> that supports the usage of the API you've got an Instance for.
+It's <em>probably</em> a hardware GPU, but it could technically be a purely software
+implementation.</p>
+<p>We actually don't <em>make</em> an Adapter, we pick one that already exists. Once we've
+picked one, we haven't even made any changes to the system. Picking an Adapter
+is like picking a IP address to connect to. It's one step to select the IP
+address you want, and then another step to actually open a connection to that IP
+address (which we'll do in a moment).</p>
+<p>We have to call
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/trait.Instance.html#tymethod.enumerate_adapters">Instance::enumerate_adapters</a>,
+which gives a vector of things to pick from. Our criteria here is based on the <code>queue_families: Vec&lt;B::QueueFamily&gt;</code> that each Adapter has. We want a QueueFamily</p>
+<ol>
+<li>That supports Graphics</li>
+<li>That our Surface supports</li>
+</ol>
+<p>It's considered a bug in <code>gfx-hal</code> if any backend ever gives a QueueFamily that
+has 0 max queues, so we don't need to bother checking that.</p>
+<p>Since we're going over a vector, we can use some fancy Iterator stuff</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let adapter = instance
+  .enumerate_adapters()
+  .into_iter()
+  .find(|a| {
+    a.queue_families
+      .iter()
+      .any(|qf| qf.supports_graphics() &amp;&amp; surface.supports_queue_family(qf))
+  })
+  .ok_or(&quot;Couldn't find a graphical Adapter!&quot;)?;
+#}</code></pre></pre>
+<a class="header" href="#device-and-queuegroup" id="device-and-queuegroup"><h3>Device and QueueGroup</h3></a>
+<p>This is a &quot;two things in one step&quot; situation. From here on out we'll be doing a
+lot of steps where we have an inner scope do to some setup, then we pass the
+important data back up to the <code>new</code> method's primary scope. It's a Rust take on
+what you might call &quot;<a href="http://number-none.com/blow/blog/programming/2014/09/26/carmack-on-inlined-code.html">Style
+C</a>&quot;
+coding. We're just going to let the method get super long, with every single
+step being as plan and obvious as possible, to see the full horror of what we're
+doing.</p>
+<p>The actual process here is easy enough to understand.</p>
+<ul>
+<li>Every Adapter has a
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/adapter/trait.PhysicalDevice.html">PhysicalDevice</a>,
+and you call <code>open</code> to actually &quot;connect&quot; your program to that PhysicalDevice.
+This (hopefully) gives a Gpu. You have to pass in a list of QueueFamily values
+with a priority for each one.</li>
+<li>A <a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/struct.Gpu.html">Gpu</a> is a pairing of
+a <a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/device/trait.Device.html">Device</a>
+(which is a logical device, but you use it so often they wanted to make the
+name shorter) and a
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/queue/family/struct.Queues.html">Queues</a>
+value, which is a container for the different queues that we can now use.</li>
+<li>Once we've got the Queues, we pull out a particular
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/queue/family/struct.QueueGroup.html">QueueGroup</a>
+as well, which we use much later to build the CommandPool, and also it's how
+we <code>submit</code> our written CommandBuffer values of course.</li>
+</ul>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let (device, queue_group) = {
+  let queue_family = adapter
+    .queue_families
+    .iter()
+    .find(|qf| qf.supports_graphics() &amp;&amp; surface.supports_queue_family(qf))
+    .ok_or(&quot;Couldn't find a QueueFamily with graphics!&quot;)?;
+  let Gpu { device, mut queues } = unsafe {
+    adapter
+      .physical_device
+      .open(&amp;[(&amp;queue_family, &amp;[1.0; 1])])
+      .map_err(|_| &quot;Couldn't open the PhysicalDevice!&quot;)?
+  };
+  let queue_group = queues
+    .take::&lt;Graphics&gt;(queue_family.id())
+    .ok_or(&quot;Couldn't take ownership of the QueueGroup!&quot;)?;
+  let _ = if queue_group.queues.len() &gt; 0 {
+    Ok(())
+  } else {
+    Err(&quot;The QueueGroup did not have any CommandQueues available!&quot;)
+  }?;
+  (device, queue_group)
+};
+#}</code></pre></pre>
+<p>Now, I can already <em>hear</em> you trying to tell me that we shouldn't repeat the
+<code>find</code> operation, but because of how the lifetimes work out we can't hang on to
+a <code>queue_family</code> and also use our Adapter normally because the QueueFamily
+reference keeps the Adapter borrowed the whole time, and it's a mess. <strong>Even
+if</strong> we didn't care about lifetime issues the two <code>find</code> operations are actually
+different because one works on <code>&amp;</code> and the other is working on <code>&amp;&amp;</code> and we just
+don't happen to <em>see</em> the difference because of <a href="https://doc.rust-lang.org/book/ch15-02-deref.html?highlight=deref#implicit-deref-coercions-with-functions-and-methods">Deref
+coercion</a>.
+It's fine to just do it twice, don't worry too much about it, really.</p>
+<a class="header" href="#the-gpu-swapchain" id="the-gpu-swapchain"><h2>The GPU Swapchain</h2></a>
+<p>The
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/window/trait.Swapchain.html">Swapchain</a>
+is like a collection of images on the GPU. They've got a linear index, like an
+array or vector, and the GPU jumps around the Swapchain showing one image at any
+given moment. This is where things start to get more configurable.</p>
+<a class="header" href="#swapchain-and-friends" id="swapchain-and-friends"><h3>Swapchain and friends</h3></a>
+<p>The basic idea is that you call
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/window/trait.Surface.html#tymethod.compatibility">Surface::compatibility</a>
+to get information about what sort of
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/window/struct.SwapchainConfig.html">SwapchainConfig</a>
+you're allowed to build, and then you call
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/device/trait.Device.html#tymethod.create_swapchain">Device::create_swapchain</a>
+with your Surface and the config you want. This gives you a Swapchain, which has
+methods for controlling the GPU's swapchain, as well as a
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/window/enum.Backbuffer.html">Backbuffer</a>,
+which holds the handles to particular Image data. We use an Image to make an
+ImageView, and we use that to make a Framebuffer, and <em>that's</em> what we're
+manipulating with the CommandBuffer.</p>
+<p>So what SwapchainConfig do we try to build? Well, the best one we can.
+Unfortunately, this varies by quite a bit. Even if I just switch from the Vulkan
+backend to the DX12 backend on a single machine the system ends up giving me
+different compatibility results.</p>
+<p>The SwapchainConfig type does have a <code>from_caps</code> method to try and help you
+build a value, but it's shockingly error prone, because not all of the
+capabilities of your Surface are actually contained in the SurfaceCapabilities
+struct! The <code>Surface::compatibility</code> also gives you Format, PresentMode, and
+CompositeAlpha that you have to pay attention to, which <code>from_caps</code> totally
+ignores. We're not going to use that, we'll just write out a struct literal
+ourselves. SwapchainConfig looks like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub struct SwapchainConfig {
+  pub present_mode: PresentMode,
+  pub composite_alpha: CompositeAlpha,
+  pub format: Format,
+  pub extent: Extent2D,
+  pub image_count: SwapImageIndex,
+  pub image_layers: Layer,
+  pub image_usage: Usage,
+}
+#}</code></pre></pre>
+<ul>
+<li><code>present_mode</code>:
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/window/enum.PresentMode.html">PresentMode</a>
+gives us access to that sweet, sweet Vsync. Well, if it's available.
+<ul>
+<li>We would most like to have <code>Mailbox</code>, which lets us do &quot;triple buffering&quot;.
+That's where you have at least 3 images, and one is &quot;being shown&quot; and then
+you render frames as quick as you can to different swapchain slots, always
+keeping the most recent complete frame ready. This gives the least amount of
+latency between user input and what they see on the screen.</li>
+<li>We would accept <code>Fifo</code>, where frames are shown in the exact order that they're
+created. If you do this with 2 images you can have &quot;double buffering&quot; (where
+you show one frame and work on the next), but if you're using this with more
+than two images then it causes excess latency between input and display.</li>
+<li>We would begrudgingly accept <code>Relaxed</code> if we had to use it, which &quot;usually&quot;
+has vsync but not always. I suppose this is for low-end machines. We want to
+avoid this if we can.</li>
+<li>We would hate to have to use <code>Immediate</code>, where there's no vsync at all.
+That would just be terrible. We could live with it, but it'd be terrible
+because we'd have to sync the program ourselves to avoid eating up 100% of
+the core (and all of the user's battery, if they're on a mobile device).</li>
+</ul>
+</li>
+<li><code>composite_alpha</code>:
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/window/enum.CompositeAlpha.html">CompositeAlpha</a>
+controls how your window interacts with other windows within the user's UI.
+<ul>
+<li>For now we'd prefer <code>Opaque</code>, so that we just show our window &quot;normally&quot;.</li>
+<li>We'd also accept <code>Native</code>, because we trust the user to have set things up
+how they want.</li>
+<li><code>PreMultiplied</code> or <code>PostMultiplied</code> will almost certainly give &quot;wrong&quot;
+results because our graphics aren't smart enough to compensate for being
+forced into such a mode. Well, they'd be wrong if our graphics were anything
+more than a single clear color, but you know what I mean.</li>
+</ul>
+</li>
+<li><code>format</code>: The
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/format/enum.Format.html">Format</a> of the
+swapchain is how the data for each pixel is expected to exist in memory.
+<em>Normally</em> we'd be a lot more interested, but since we're just clearing the
+screen it doesn't super matter. Still, we'll try to pick an sRGB format (which
+stands for &quot;standard Red Green Blue&quot;), just because that's what we'll be using
+in basically all the future lessons. Here we've got an <code>Option&lt;Vec&lt;_&gt;&gt;</code>, which
+means that the selection block will be silly and fiddly.</li>
+<li><code>extent</code>: The
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/window/struct.Extent2D.html">Extent2D</a>
+describes a full sized rectangle (not a sub-rectangle), and selects a size for
+our images. Here's where we start using the SurfaceCapabilities that we got
+earlier. The SwapchainConfig <code>extent</code> that we use must be within the range
+that the <code>extents: Range&lt;Extent2D&gt;</code> field in our SurfaceCapabilities
+specifies. Note that the
+<a href="https://doc.rust-lang.org/nightly/core/ops/struct.Range.html">Range</a> type is
+semantically supposed to be <em>exclusive</em> but both the Vulkan and DX12 backends
+use it wrong, so it's actually an inclusive value here.
+<ul>
+<li>As far as what extent we're actually going to pick, we'll go as big as we
+can. The Surface should should end up being the size of our Window, so our
+images are just &quot;normal&quot; size and it all works out.</li>
+</ul>
+</li>
+<li><code>image_count</code>: The
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/window/type.SwapImageIndex.html">SwapImageIndex</a>
+is just a <code>u32</code> for how many images we want in our Swapchain. Like I said, if
+we're going to be using <code>Mailbox</code> then we want 3, otherwise we'll go with 2.
+Note that we have to respect the <code>image_count: Range&lt;SwapImageIndex&gt;</code> field of
+the SurfaceCapabilities, which is <em>another</em> field that is a Range but should
+actually be a RangeInclusive.</li>
+<li><code>image_layers</code>: The
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/image/type.Layer.html">Layer</a> is just a
+<code>u16</code> for how many layers we want in our image. 1 is fine.</li>
+<li><code>image_usage</code>: The
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/image/struct.Usage.html">Usage</a> defines
+how we'll be using the images in the swap chain in terms of the render pass
+stuff. We'll be using just color for now, so we check for that.</li>
+</ul>
+<p>With that all done, we make the SwapchainConfig and then we use the Device to
+build a Swapchain and Backbuffer pair. This is a very vertical portion of code,
+but not too much is actually happening.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let (swapchain, extent, backbuffer, format, frames_in_flight) = {
+  let (caps, preferred_formats, present_modes, composite_alphas) = surface.compatibility(&amp;adapter.physical_device);
+  info!(&quot;{:?}&quot;, caps);
+  info!(&quot;Preferred Formats: {:?}&quot;, preferred_formats);
+  info!(&quot;Present Modes: {:?}&quot;, present_modes);
+  info!(&quot;Composite Alphas: {:?}&quot;, composite_alphas);
+  //
+  let present_mode = {
+    use gfx_hal::window::PresentMode::*;
+    [Mailbox, Fifo, Relaxed, Immediate]
+      .iter()
+      .cloned()
+      .find(|pm| present_modes.contains(pm))
+      .ok_or(&quot;No PresentMode values specified!&quot;)?
+  };
+  let composite_alpha = {
+    use gfx_hal::window::CompositeAlpha::*;
+    [Opaque, Inherit, PreMultiplied, PostMultiplied]
+      .iter()
+      .cloned()
+      .find(|ca| composite_alphas.contains(ca))
+      .ok_or(&quot;No CompositeAlpha values specified!&quot;)?
+  };
+  let format = match preferred_formats {
+    None =&gt; Format::Rgba8Srgb,
+    Some(formats) =&gt; match formats
+      .iter()
+      .find(|format| format.base_format().1 == ChannelType::Srgb)
+      .cloned()
+    {
+      Some(srgb_format) =&gt; srgb_format,
+      None =&gt; formats.get(0).cloned().ok_or(&quot;Preferred format list was empty!&quot;)?,
+    },
+  };
+  let extent = caps.extents.end;
+  let image_count = if present_mode == PresentMode::Mailbox {
+    (caps.image_count.end - 1).min(3)
+  } else {
+    (caps.image_count.end - 1).min(2)
+  };
+  let image_layers = 1;
+  let image_usage = if caps.usage.contains(Usage::COLOR_ATTACHMENT) {
+    Usage::COLOR_ATTACHMENT
+  } else {
+    Err(&quot;The Surface isn't capable of supporting color!&quot;)?
+  };
+  let swapchain_config = SwapchainConfig {
+    present_mode,
+    composite_alpha,
+    format,
+    extent,
+    image_count,
+    image_layers,
+    image_usage,
+  };
+  info!(&quot;{:?}&quot;, swapchain_config);
+  //
+  let (swapchain, backbuffer) = unsafe {
+    device
+      .create_swapchain(&amp;mut surface, swapchain_config, None)
+      .map_err(|_| &quot;Failed to create the swapchain!&quot;)?
+  };
+  (swapchain, extent, backbuffer, format, image_count as usize)
+};
+#}</code></pre></pre>
+<a class="header" href="#render_area" id="render_area"><h4>render_area</h4></a>
+<p>This is a <a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/pso/struct.Rect.html">Rect</a>
+version of our Extent2D. While an Extent2D is semantically the full area of an
+image or texture (storing only width:<code>u32</code> and height:<code>u32</code>), a Rect is some
+sub-portion of such an area (storing x,y,w,h, all <code>i16</code>). Note that your
+sub-portion can totally just be &quot;all of it&quot;.</p>
+<a class="header" href="#frames_in_flight" id="frames_in_flight"><h4>frames_in_flight</h4></a>
+<p>This is just us storing how many images are in our Swapchain. As you saw when we
+cleared the screen, we'll have one set of just about everything per frame in
+flight.</p>
+<a class="header" href="#fences-and-semaphores" id="fences-and-semaphores"><h3>Fences and Semaphores</h3></a>
+<p>Generating the Fence and Semaphore values is quite boring. You just call
+<code>create_fence</code> and <code>create_semaphore</code> on your Device value, over and over until
+you have enough. Technically this might cause an OutOfMemory problem on the GPU,
+but that's not very likely, so there's little chance that we'll have a problem
+in this stage of things.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let (image_available_semaphores, render_finished_semaphores, in_flight_fences) = {
+  let mut image_available_semaphores: Vec&lt;&lt;back::Backend as Backend&gt;::Semaphore&gt; = vec![];
+  let mut render_finished_semaphores: Vec&lt;&lt;back::Backend as Backend&gt;::Semaphore&gt; = vec![];
+  let mut in_flight_fences: Vec&lt;&lt;back::Backend as Backend&gt;::Fence&gt; = vec![];
+  for _ in 0..frames_in_flight {
+    in_flight_fences.push(device.create_fence(true).map_err(|_| &quot;Could not create a fence!&quot;)?);
+    image_available_semaphores.push(device.create_semaphore().map_err(|_| &quot;Could not create a semaphore!&quot;)?);
+    render_finished_semaphores.push(device.create_semaphore().map_err(|_| &quot;Could not create a semaphore!&quot;)?);
+  }
+  (image_available_semaphores, render_finished_semaphores, in_flight_fences)
+};
+#}</code></pre></pre>
+<a class="header" href="#renderpass" id="renderpass"><h2>RenderPass</h2></a>
+<p>A RenderPass describes each part of the whole graphical processing for an image.
+Well, actually it describes one &quot;pass&quot; which has various &quot;sub-passes&quot;, but you
+can also do multi-pass rendering, and then each pass can have its own
+sub-passes. It's a lot of organization you might need to keep track of, but it
+lets you be very precise about what happens when.</p>
+<p>The RenderPass type has a backend specific definition so there's no general
+struct here, not even a trait for them, unfortunately. Instead, you make one
+with
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/device/trait.Device.html#tymethod.create_render_pass">Device::create_render_pass</a>.
+This works a lot like that Submission stuff we had to deal with before, where
+we'll have lists of stuff that all kinda get piled together. We need one
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/pass/struct.Attachment.html">Attachment</a>
+value (for the color), one
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/pass/struct.SubpassDesc.html">SubpassDesc</a>
+value (remember how we did a single &quot;inline&quot; render pass?), and then naturally
+we have no
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/pass/struct.SubpassDependency.html">SubpassDependency</a>
+values since we only have a single subpass.</p>
+<ul>
+<li>Our Attachment needs
+<ul>
+<li><code>format</code>: the format that we picked out for our Swapchain to be using.</li>
+<li><code>samples</code>: is only used when you get to multisampling, which is a later lesson.</li>
+<li><code>ops</code>: determines what to do with the data in this Attachment at the start
+of the subpass and at the end of the subpass. Remember how we recorded a
+command that set a clear color and nothing else? That didn't even do the
+clearing. <em>This</em> is the part that does the clearing. When the subpass begins
+the old color value is all cleared. When the subpass ends the color values
+are stored.</li>
+<li><code>stencil_ops</code>: Is something we'll use later, but for now <code>DONT_CARE</code> is
+sufficient. I guess this is one of the few places where we kinda have a
+default to work with.</li>
+<li><code>layouts</code>: This lets us define the starting and ending pixel layout of the
+image we're processing. Each image has a pixel format which doesn't change
+from pass to pass, but it also has a layout that does change from pass to
+pass. It depends on what the image is being used for. In our case it starts
+as Undefined (since nothing happened before this) and it ends with Present
+(since we're done and want to present the image). Once again, we're using a
+Range when the type <em>should be</em> RangeInclusive, or even maybe just a tuple.</li>
+</ul>
+</li>
+<li>Our SubpassDesc needs the color attachment, and no others. This is where you
+<em>can</em> get really fancy with &quot;post-processing effects&quot; type of stuff. We just
+need one
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/pass/type.AttachmentRef.html">AttachmentRef</a>
+for our colors. An ID value (0 is fine) and a layout. <em>During</em> this pass we'll
+be affecting the color, so we'll pick <code>ColorAttachmentOptimal</code>. Well, we don't
+affect the colors after the clear during this tutorial, but once we start
+drawing stuff it'll matter, so we might as well set it now.</li>
+</ul>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let render_pass = {
+  let color_attachment = Attachment {
+    format: Some(format),
+    samples: 1,
+    ops: AttachmentOps {
+      load: AttachmentLoadOp::Clear,
+      store: AttachmentStoreOp::Store,
+    },
+    stencil_ops: AttachmentOps::DONT_CARE,
+    layouts: Layout::Undefined..Layout::Present,
+  };
+  let subpass = SubpassDesc {
+    colors: &amp;[(0, Layout::ColorAttachmentOptimal)],
+    depth_stencil: None,
+    inputs: &amp;[],
+    resolves: &amp;[],
+    preserves: &amp;[],
+  };
+  unsafe {
+    device
+      .create_render_pass(&amp;[color_attachment], &amp;[subpass], &amp;[])
+      .map_err(|_| &quot;Couldn't create a render pass!&quot;)?
+  }
+};
+#}</code></pre></pre>
+<a class="header" href="#targets-for-rendering" id="targets-for-rendering"><h2>Targets For Rendering</h2></a>
+<p>We've got all these images, but we can't use them as it is. Vulkan wants to know
+more because it wants all the memory for each step to be as perfectly laid out
+as possible.</p>
+<a class="header" href="#imageview" id="imageview"><h3>ImageView</h3></a>
+<p>First we have to take the Images (in the Backbuffer) and then make one ImageView
+each. This adds the metadata to each image on how we're using it.</p>
+<p>There's not too much to say about the process here. The Backbuffer technically
+can hold two possible setups, one of which is for OpenGL and the other of which
+is for everything else. It throws a bit of a wrench into our plans to support
+the OpenGL setup so... well we just won't do it for now. After that's settled
+it's just a simple map operation where we call
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/device/trait.Device.html#tymethod.create_image_view">Device::create_image_view</a>
+a bunch and collect it all up.</p>
+<p>We've seen some of this before.</p>
+<ul>
+<li><a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/image/enum.ViewKind.html">ViewKind</a>
+lets us pick that we want this ImageView to be a 2D image, which is already
+enough of a heads up to know that an &quot;Image&quot; can get pretty weird the farther
+we go into this and the more types of ViewKind we eventually use.</li>
+<li><a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/format/struct.Swizzle.html">Swizzle</a>
+gives you the ability to transition between two different color channel
+orderings, but we have no need for that now so we can use the <code>NO</code> constant.</li>
+<li><a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/image/struct.SubresourceRange.html">SubresourceRange</a>
+lets us pick what sub-resources (eg: Color / Depth / Stencil) are used at what
+mipmap levels (think &quot;zoom levels&quot;), and in what parts of the array (if our
+image is an array, which it's not).</li>
+</ul>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let image_views: Vec&lt;_&gt; = match backbuffer {
+  Backbuffer::Images(images) =&gt; images
+    .into_iter()
+    .map(|image| unsafe {
+      device
+        .create_image_view(
+          &amp;image,
+          ViewKind::D2,
+          format,
+          Swizzle::NO,
+          SubresourceRange {
+            aspects: Aspects::COLOR,
+            levels: 0..1,
+            layers: 0..1,
+          },
+        )
+        .map_err(|_| &quot;Couldn't create the image_view for the image!&quot;)
+    })
+    .collect::&lt;Result&lt;Vec&lt;_&gt;, &amp;str&gt;&gt;()?,
+  Backbuffer::Framebuffer(_) =&gt; unimplemented!(&quot;Can't handle framebuffer backbuffer!&quot;),
+};
+#}</code></pre></pre>
+<a class="header" href="#framebuffer" id="framebuffer"><h3>Framebuffer</h3></a>
+<p>Once we've got our ImageView values set, we can get one Framebuffer for each
+with
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/device/trait.Device.html#tymethod.create_framebuffer">Device::create_framebuffer</a>.
+This is what we actually target with our CommandBuffer recordings. It's another
+quick map operation, even less to say than with the ImageViews.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let framebuffers: Vec&lt;&lt;back::Backend as Backend&gt;::Framebuffer&gt; = {
+  image_views
+    .iter()
+    .map(|image_view| unsafe {
+      device
+        .create_framebuffer(
+          &amp;render_pass,
+          vec![image_view],
+          Extent {
+            width: extent.width as u32,
+            height: extent.height as u32,
+            depth: 1,
+          },
+        )
+        .map_err(|_| &quot;Failed to create a framebuffer!&quot;)
+    })
+    .collect::&lt;Result&lt;Vec&lt;_&gt;, &amp;str&gt;&gt;()?
+};
+#}</code></pre></pre>
+<p>There's a use of <code>vec!</code> in there that we <em>could</em> avoid with the same ArrayVec
+deal that we used before, but this is startup code so we don't quite need to
+bother. We'll only have 2 or 3 framebuffers anyway, it's fine.</p>
+<a class="header" href="#command-issuing" id="command-issuing"><h2>Command Issuing</h2></a>
+<p>We're in the home stretch, we just need to initialize the ability to issue
+commands so we can put all these other things into use.</p>
+<p>It's so simple we won't even use sub-sections:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let mut command_pool = unsafe {
+  device
+    .create_command_pool_typed(&amp;queue_group, CommandPoolCreateFlags::RESET_INDIVIDUAL)
+    .map_err(|_| &quot;Could not create the raw command pool!&quot;)?
+};
+#}</code></pre></pre>
+<p>The <code>RESET_INDIVIDUAL</code> flag lets us reset individual command buffers that come
+out of this pool (without the flag you have to reset the whole pool at once).</p>
+<p>Once we have a CommandPool we make it give us one CommandBuffer for each
+Framebuffer that we ended up with.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let command_buffers: Vec&lt;_&gt; = framebuffers.iter().map(|_| command_pool.acquire_command_buffer()).collect();
+#}</code></pre></pre>
+<a class="header" href="#current_frame" id="current_frame"><h3>current_frame</h3></a>
+<p>I guess you could say that this is part of the command issuing maybe? I don't
+know, but we've been initializing for a super long time and I'm getting sick of
+it, so you probably are too. This value is just a <code>usize</code> tracking what set of
+stuff to use, and it starts at 0.</p>
+<a class="header" href="#cleaning-up-halstate" id="cleaning-up-halstate"><h1>Cleaning Up <code>HalState</code></h1></a>
+<p>There's two situations where we'd need to clean up the <code>HalState</code> stuff:</p>
+<ul>
+<li>Drop triggering, for any reason: Easy to do, we'll show that in a moment, once
+we've talked about this other situation we have to handle</li>
+<li><code>new</code> returning before the <code>HalState</code> struct is actually declared (which means
+that <code>HalState::drop</code> doesn't get called): Very un-ergonomic to handle
+properly. Like, seriously it's bad. You could re-arrange all of the code so
+that <em>every single</em> early return (the <code>?</code> parts) is actually resource safe,
+but we're totally not even going to do that. It's just too terrible to try.
+Every single potential early return would create a new indentation for the
+main code and a custom cleanup block we'd have to write in the error case. I
+don't even want to think about it.</li>
+</ul>
+<p>Why so? Well, almost none of the resource types are self-destructing, so even
+though an early return causes them to die <a href="https://github.com/rust-lang/rfcs/blob/master/text/1857-stabilize-drop-order.md">in the proper
+order</a>
+(that is, we <em>always</em> want LIFO destruction), their moment of destruction
+doesn't actually <em>do</em> anything because they don't have their own Drop code.
+<em>This isn't anyone's fault</em>. I know in a few spots I've taken a few jabs at the
+gfx team for using Range instead of RangeInclusive or something like that, but
+this one they really can't fix.</p>
+<p>Anything that comes from <code>Device::create_foo</code> needs to be destroyed by calling
+<code>Device::destroy_foo</code> using that same device. So, either we need to have a
+globally set Device value so that anyone's drop code can call <code>destroy_*</code> at any
+time (rather bad to have such a global), or every single thing to later be
+destroyed has to carry with it a copy of the Device so that they can use it to
+destroy themselves (arguably worse in terms of overhead). It's just... it's just
+not a good situation at all. We'll just have to be aware that our HalState
+initialization code is just fundamentally broken for early returns, and it
+probably always will be.</p>
+<p>What are the <em>consequences</em> for any kind of improper resource destruction like
+that? Well, it depends. Which is terrible to have to say, but it does. <em>Usually</em>
+you get a resource leak but life goes on as long as everything that comes out of
+your Instance goes away before your Instance does. If you try to destroy the
+Instance before things that came out of it you'll (probably) segfault your
+process on the Vulkan backend. DX12 doesn't seem to mind. I don't know about
+Metal since I don't own a mac.</p>
+<p>I feel about as bad for being so vague about it as you probably feel for having
+to read it, but these are just the troubles with FFI.</p>
+<a class="header" href="#waiting-until-idle" id="waiting-until-idle"><h3>Waiting Until Idle</h3></a>
+<p>The first thing we do in the drop method is wait for the device to go idle. It's
+not legal to destroy resources that are in use, so we just give it a moment to
+cool down by calling
+<a href="https://docs.rs/gfx-hal/0.1.0/gfx_hal/device/trait.Device.html#tymethod.wait_idle">Device::wait_idle</a>.
+This could technically error, but at this point we're tearing it all down so we
+don't care about the error. The device had its chance and now we're in charge.</p>
+<a class="header" href="#basic-destruction" id="basic-destruction"><h3>Basic Destruction</h3></a>
+<p>As I said, anything that comes from <code>Device::create_foo</code> needs to go back to a
+<code>Device::destroy_foo</code> call. If those things are stored in vectors, it's easy to
+drain out the vector and destroy them one at a time.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+impl core::ops::Drop for HalState {
+  /// We have to clean up &quot;leaf&quot; elements before &quot;root&quot; elements. Basically, we
+  /// clean up in reverse of the order that we created things.
+  fn drop(&amp;mut self) {
+    let _ = self.device.wait_idle();
+    unsafe {
+      for fence in self.in_flight_fences.drain(..) {
+        self.device.destroy_fence(fence)
+      }
+#}</code></pre></pre>
+<p>And so on, for all of the things that are stored in vectors.</p>
+<a class="header" href="#manuallydrop" id="manuallydrop"><h3>ManuallyDrop</h3></a>
+<p>What do we do about things that aren't stored in vectors? We need to pass them
+to <code>destroy_foo</code> but that's by-value and we can't move them out of a borrowed
+context (since we're using <code>&amp;mut self</code> within the <code>drop</code> call).</p>
+<p>The answer is that we cheat.</p>
+<p>If we just use
+<a href="https://doc.rust-lang.org/core/ptr/fn.read.html">core::ptr::read</a> we can make a
+duplicate of any bits we want. The type doesn't even have to be Clone! It's as
+unsafe as it sounds. How do we offset some of that? With a marker struct called
+<a href="https://doc.rust-lang.org/core/mem/struct.ManuallyDrop.html">ManuallyDrop</a>,
+which is magically known to the compiler, and the thing inside of the
+ManuallyDrop will never run its own destructor automatically. When it's really
+time to destroy the thing we can call <code>ManuallyDrop::into_inner</code> to unwrap the
+value and pass it to some destroy function, or we can call <code>ManuallyDrop::drop</code>
+to force the drop to happen on something that we don't have ownership of. We're
+actually going to use <em>both</em> styles.</p>
+<p>For things that go with a <code>destroy_foo</code> method we'll use the <code>::into_inner</code>
+style:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// The CommandPool must also be unwrapped into a RawCommandPool,
+// so there's an extra `into_raw` call here.
+self
+  .device
+  .destroy_command_pool(ManuallyDrop::into_inner(read(&amp;mut self.command_pool)).into_raw());
+self
+  .device
+  .destroy_render_pass(ManuallyDrop::into_inner(read(&amp;mut self.render_pass)));
+self
+  .device
+  .destroy_swapchain(ManuallyDrop::into_inner(read(&amp;mut self.swapchain)));
+#}</code></pre></pre>
+<p>And for our two final items we just use the <code>ManuallyDrop::drop</code> style:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+ManuallyDrop::drop(&amp;mut self.device);
+ManuallyDrop::drop(&amp;mut self._instance);
+#}</code></pre></pre>
+<a class="header" href="#final-halstate-definition" id="final-halstate-definition"><h1>Final <code>HalState</code> Definition</h1></a>
+<p>Now that we know all of the fields that we have, including which ones are
+wrapped in <code>ManuallyDrop</code>, we can look at our crazy, ugly, horrible <code>HalState</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub struct HalState {
+  current_frame: usize,
+  frames_in_flight: usize,
+  in_flight_fences: Vec&lt;&lt;back::Backend as Backend&gt;::Fence&gt;,
+  render_finished_semaphores: Vec&lt;&lt;back::Backend as Backend&gt;::Semaphore&gt;,
+  image_available_semaphores: Vec&lt;&lt;back::Backend as Backend&gt;::Semaphore&gt;,
+  command_buffers: Vec&lt;CommandBuffer&lt;back::Backend, Graphics, MultiShot, Primary&gt;&gt;,
+  command_pool: ManuallyDrop&lt;CommandPool&lt;back::Backend, Graphics&gt;&gt;,
+  framebuffers: Vec&lt;&lt;back::Backend as Backend&gt;::Framebuffer&gt;,
+  image_views: Vec&lt;(&lt;back::Backend as Backend&gt;::ImageView)&gt;,
+  render_pass: ManuallyDrop&lt;&lt;back::Backend as Backend&gt;::RenderPass&gt;,
+  render_area: Rect,
+  queue_group: QueueGroup&lt;back::Backend, Graphics&gt;,
+  swapchain: ManuallyDrop&lt;&lt;back::Backend as Backend&gt;::Swapchain&gt;,
+  device: ManuallyDrop&lt;back::Device&gt;,
+  _adapter: Adapter&lt;back::Backend&gt;,
+  _surface: &lt;back::Backend as Backend&gt;::Surface,
+  _instance: ManuallyDrop&lt;back::Instance&gt;,
+}
+#}</code></pre></pre>
+<a class="header" href="#everything-else" id="everything-else"><h1>Everything Else</h1></a>
+<p>Now we just fill in those final bits that aren't the <code>HalState</code> materials.</p>
+<a class="header" href="#userinput" id="userinput"><h2><code>UserInput</code></h2></a>
+<p>For input, we'll just track a few of the possible things:</p>
+<ul>
+<li>If a close was requested.</li>
+<li>The frame's new size (if any).</li>
+<li>The mouse's new position (if any).</li>
+</ul>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[derive(Debug, Clone, Default)]
+pub struct UserInput {
+  pub end_requested: bool,
+  pub new_frame_size: Option&lt;(f64, f64)&gt;,
+  pub new_mouse_position: Option&lt;(f64, f64)&gt;,
+}
+impl UserInput {
+  pub fn poll_events_loop(events_loop: &amp;mut EventsLoop) -&gt; Self {
+    let mut output = UserInput::default();
+    events_loop.poll_events(|event| match event {
+      Event::WindowEvent {
+        event: WindowEvent::CloseRequested,
+        ..
+      } =&gt; output.end_requested = true,
+      Event::WindowEvent {
+        event: WindowEvent::Resized(logical),
+        ..
+      } =&gt; {
+        output.new_frame_size = Some((logical.width, logical.height));
+      }
+      Event::WindowEvent {
+        event: WindowEvent::CursorMoved { position, .. },
+        ..
+      } =&gt; {
+        output.new_mouse_position = Some((position.x, position.y));
+      }
+      _ =&gt; (),
+    });
+    output
+  }
+}
+#}</code></pre></pre>
+<a class="header" href="#localstate" id="localstate"><h2><code>LocalState</code></h2></a>
+<p>Currently, the locals are just the user input, minus the bool for if the user is
+trying to quit. We'll get plenty more locals later.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[derive(Debug, Clone, Copy, Default)]
+pub struct LocalState {
+  pub frame_width: f64,
+  pub frame_height: f64,
+  pub mouse_x: f64,
+  pub mouse_y: f64,
+}
+impl LocalState {
+  pub fn update_from_input(&amp;mut self, input: UserInput) {
+    if let Some(frame_size) = input.new_frame_size {
+      self.frame_width = frame_size.0;
+      self.frame_height = frame_size.1;
+    }
+    if let Some(position) = input.new_mouse_position {
+      self.mouse_x = position.0;
+      self.mouse_y = position.1;
+    }
+  }
+}
+#}</code></pre></pre>
+<a class="header" href="#do_the_render" id="do_the_render"><h2><code>do_the_render</code></h2></a>
+<p>This part is easy right now. We just make up some arbitrary color and clear the
+screen to that. We'll use the mouse's position as a fraction of the total frame
+size, so that the color shifts as the mouse moves. It's some sort of feedback at
+least.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+fn do_the_render(hal_state: &amp;mut HalState, local_state: &amp;LocalState) -&gt; Result&lt;(), &amp;'static str&gt; {
+  let r = (local_state.mouse_x / local_state.frame_width) as f32;
+  let g = (local_state.mouse_y / local_state.frame_height) as f32;
+  let b = (r + g) * 0.3;
+  let a = 1.0;
+  hal_state.draw_clear_frame([r, g, b, a])
+}
+#}</code></pre></pre>
+<a class="header" href="#main" id="main"><h2><code>main</code></h2></a>
+<p>Now we put it all together, and we get a final form that's pleasantly similar to
+what our initial goal looked like.</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+  simple_logger::init().unwrap();
+
+  let mut winit_state = WinitState::default();
+
+  let mut hal_state = match HalState::new(&amp;winit_state.window) {
+    Ok(state) =&gt; state,
+    Err(e) =&gt; panic!(e),
+  };
+
+  let (frame_width, frame_height) = winit_state
+    .window
+    .get_inner_size()
+    .map(|logical| logical.into())
+    .unwrap_or((0.0, 0.0));
+  let mut local_state = LocalState {
+    frame_width,
+    frame_height,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+  };
+
+  loop {
+    let inputs = UserInput::poll_events_loop(&amp;mut winit_state.events_loop);
+    if inputs.end_requested {
+      break;
+    }
+    local_state.update_from_input(inputs);
+    if let Err(e) = do_the_render(&amp;mut hal_state, &amp;local_state) {
+      error!(&quot;Rendering Error: {:?}&quot;, e);
+      break;
+    }
+  }
+}
+</code></pre></pre>
+<p>You can find the full code file in the <code>examples/</code> directory of the repo.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+        
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+        
+        
+
+    </body>
+</html>
