@@ -158,6 +158,8 @@ loop will run as fast as possible and use 100% of the core it's on.
 Both things are not good, but this is just a stepping stone and we learn
 to draw stuff in the next lesson, so it's fine.
 
+![hello-winit-complete](images/hello-winit-complete.png)
+
 All of the code discussed here is available within the
 [hello_winit](https://github.com/gfx-rs/learn-gfx-hal/blob/master/examples/hello_winit.rs)
 example.

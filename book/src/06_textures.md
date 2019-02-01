@@ -1103,3 +1103,5 @@ void main()
 ```
 
 And we're finally through!
+
+![textures-complete](images/textures-complete.png)

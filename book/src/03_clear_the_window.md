@@ -1801,4 +1801,6 @@ fn main() {
 }
 ```
 
+![clear-the-window-complete](images/clear-the-window-complete.png)
+
 You can find the full code file in the `examples/` directory of the repo.

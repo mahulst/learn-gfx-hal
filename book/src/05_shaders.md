@@ -419,3 +419,5 @@ However, I also promised to keep this lesson short, and we'll be using uniform
 buffers soon enough I'm sure, so we _won't_ go into them right now. Knowing
 about push constants already teaches you about the general idea of uniform data,
 so we've covered enough to stop here.
+
+![shaders-complete](images/shaders-complete.png)
